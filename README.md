@@ -1,124 +1,115 @@
-# Play! #
-Play! is a PlayStation2 emulator for Windows, macOS, UNIX, Android, iOS & web browser platforms.
+# Play! 模拟器 #
 
-Compatibility information is available on the official [Compatibility Tracker](https://github.com/jpd002/Play-Compatibility).
-If a specific game doesn't work with the emulator, please create a new issue there.
+邻家小熊修改自用~
 
-For more information, please visit [purei.org](https://purei.org).
+Play! 是一款适用于 Windows、macOS、UNIX、Android、iOS 及网页浏览器平台的 PlayStation 2（PS2）模拟器。
 
-You can try the experimental web browser version here: [playjs.purei.org](https://playjs.purei.org).
+兼容性相关信息可查阅官方的「兼容性追踪器」：[Compatibility Tracker](https://github.com/jpd002/Play-Compatibility)。
+如果某款游戏无法在该模拟器中运行，请在该仓库提交新的 Issue。
 
-For general discussion, you're welcome to join our Discord: https://discord.gg/HygQnQP.
+如需了解更多信息，可访问官网：[purei.org](https://purei.org)。
 
-## Command Line Options (Windows/macOS/Linux) ##
+你可以体验实验性的网页版模拟器：[playjs.purei.org](https://playjs.purei.org)。
 
-The following command line options are available:
-- `--disc "disc image path"` : Boots a disc image.
-- `--elf "elf file path"` : Boots a ELF file.
-- `--arcade "arcade id"` : Boots an arcade game.
-- `--state "slot number"` : Loads a state from slot number.
-- `--fullscreen` : Starts the emulator in fullscreen mode.
+如需交流讨论，欢迎加入我们的 Discord 社群：https://discord.gg/HygQnQP。
 
-## Running on Windows ##
+## 命令行选项（Windows/macOS/Linux） ##
+支持以下命令行选项：
+- `--disc "光盘镜像路径"`：启动指定的光盘镜像文件。
+- `--elf "ELF 文件路径"`：启动指定的 ELF 可执行文件。
+- `--arcade "街机游戏ID"`：启动指定的街机游戏。
+- `--state "存档槽位编号"`：从指定槽位加载存档。
+- `--fullscreen`：以全屏模式启动模拟器。
 
-Please make sure you have the latest VC++ redistributable package installed on your machine. Here are the links if you need to install them:
-- x86-64: https://aka.ms/vs/17/release/vc_redist.x64.exe
-- x86-32: https://aka.ms/vs/17/release/vc_redist.x86.exe
+## Windows 系统运行说明 ##
+请确保你的设备安装了最新版 VC++ 可再发行组件包。如需安装，可参考以下链接：
+- x86-64 架构：https://aka.ms/vs/17/release/vc_redist.x64.exe
+- x86-32 架构：https://aka.ms/vs/17/release/vc_redist.x86.exe
 
-## Running on iOS ##
+## iOS 系统运行说明 ##
+该模拟器通过 JIT（即时编译）生成代码来提升运行速度，但 iOS 系统默认不支持 JIT，因此有以下额外要求：
 
-This emulator uses JIT code generation to speed things up. This is not supported by default by iOS, thus, there are some extra requirements:
+- 设备需运行 iOS 13 及以下版本，或搭载 arm64e 芯片的设备运行 iOS 14.2/14.3 版本。
+- 设备需完成越狱。
 
-- Have a device running iOS 13 or less, or an arm64e device running iOS 14.2/14.3.
-- Have a jailbroken device.
-
-If these requirements are not met, there are still ways to enable JIT through other means. Here is a guide explaining how JIT can be enabled:
+若不满足上述要求，仍可通过其他方式启用 JIT。以下指南说明了启用 JIT 的方法：
 
 https://spidy123222.github.io/iOS-Debugging-JIT-Guides/
 
-Play! implements automatic JIT activation through AltServer, which requires AltServer to be running on the same network as your iOS device. This can be enabled in the Settings menu of the emulator.
+Play! 支持通过 AltServer 自动激活 JIT（需 AltServer 与 iOS 设备处于同一网络），你可在模拟器的设置菜单中开启该功能。
 
-You can also build the emulator yourself and launch it through Xcode's debugger to enable JIT. This will require installing the iOS SDK. If you don't want to be tethered to Xcode, you can use the "Detach" button in the "Debug" section after attaching the debugger to the app process. After you detach the debugger, the debug process will stay on the app until the app's process ends.
+你也可以自行编译模拟器，并通过 Xcode 调试器启动以启用 JIT（需安装 iOS SDK）。若不想一直连接 Xcode，可在「调试」面板中点击「Detach（分离）」按钮，分离后调试进程会保留至应用退出。
 
-**If you try to play a game without JIT enabled, you will experience a crash when you launch the game.**
+**注意：若未启用 JIT 就运行游戏，启动时会触发崩溃。**
 
-### Adding games to the library ###
-
-Please refer to the following guides for instructions regarding adding your disc images to the Play! application on your iOS device:
+### 向游戏库添加游戏 ###
+如需在 iOS 设备的 Play! 应用中添加光盘镜像，可参考以下官方指南：
 - https://support.apple.com/HT201301
 - https://support.apple.com/HT210598
 
-If your device is jailbroken, the emulator will look through all bootable files in the `/private/var/mobile` directory and all of its subdirectories.
+若你的设备已越狱，模拟器会自动扫描 `/private/var/mobile` 目录及其所有子目录中的可启动文件。
 
-## Namco System 2x6 Arcade Support ##
+## 南梦宫 System 2x6 街机游戏支持 ##
 
-### Placing dongle images and disc images ###
-
-The files required to run arcade games should be placed inside the `arcaderoms` subdirectory of your `Play! Data Files` directory.
+### 放置加密狗镜像与光盘镜像 ###
+运行街机游戏所需的文件需放在「Play! 数据文件」目录下的 `arcaderoms` 子目录中，目录结构示例：
 
 ```
 arcaderoms/
   bldyr3b.zip
   bldyr3b/
-    bldyr3b.chd
+    bldyr3b.chd  # 游戏光盘镜像
   tekken4.zip
   tekken4/
     tef1dvd0.chd  
 ```
 
-## Arcade Specific Controls ##
+## 街机专属控制映射 ##
+部分街机专属操作映射至 PS2 手柄的以下按键：
 
-Some arcade specific actions are mapped to these buttons on the PS2 controller mappings:
+- 服务/投币：SELECT 键
+- 测试：同时按下 L3 与 R3 键
 
-- Service/Coin: SELECT
-- Test: L3 & R3 pressed at the same time
+### 光枪支持 ###
+对于支持光枪的游戏，按键映射如下：
 
-### Light Gun Support ###
+- 扳机：圆圈（CIRCLE）键
+- 踏板：三角（TRIANGLE）键
 
-For games that support light guns, the following buttons are mapped:
+模拟器窗口中的鼠标光标位置对应光枪瞄准位置，你也可在控制器设置中将鼠标按键映射为圆圈或三角键，提升操作体验。
 
-- Gun Trigger: CIRCLE
-- Pedal: TRIANGLE
+**《化解危机 3》特别说明**：该游戏需先在服务菜单中校准光枪。按住测试键进入「I/O Test（输入输出测试）」，再进入「Gun Initialize（光枪初始化）」，按下踏板键校准（瞄准屏幕中心射击），仅需校准一次。
 
-The mouse's cursor position on the emulator's window will be used for the gun's position. It's also possible to map mouse buttons to CIRCLE or TRIANGLE in controller settings for a better experience.
+### 太鼓达人支持 ###
+对于《太鼓达人》系列游戏，按键映射如下：
 
-**Note for Time Crisis 3**: This game requires prior calibration of the light gun in service menu. Hold the Test buttons, go in "I/O Test" then "Gun Initialize" and press the Pedal button to calibrate the gun (shoot at the center). This only needs to be done once.
+- 左侧面（面）：L1 键
+- 左侧边（ふち）：L2 键
+- 右侧面（面）：R1 键
+- 右侧边（ふち）：R2 键
 
-### Taiko Drum Support ###
+### 赛车游戏支持 ###
+对于赛车类游戏，按键映射如下：
 
-For Taiko no Tatsujin games, the following buttons are mapped:
+- 方向盘：左摇杆 X 轴（左右）
+- 油门踏板：左摇杆 Y 轴（上）
+- 刹车踏板：右摇杆 X 轴（右）
 
-- Left Men (面) : L1
-- Left Fuchi (ふち) : L2
-- Right Men (面) : R1
-- Right Fuchi (ふち) : R2
+## 常见问题排查 ##
 
-### Driving Support ###
+#### 无法打开 CHD 文件 ####
+市面上很多镜像文件格式不规范（尤其是 CD/DVD 游戏镜像），模拟器要求 CDVD 镜像需通过 chdman 工具的 `createcd` 或 `createdvd` 命令压缩。格式不符会触发报错。可通过游戏对应的 `arcadedef` 文件中的 `cdvd` 或 `hdd` 配置项，判断该游戏使用的是 CDVD 还是 HDD 镜像。
 
-For driving games, the following buttons are mapped:
-
-- Wheel : Left Analog Stick X +/-
-- Gas Pedal : Left Analog Stick Y +
-- Brake Pedal : Right Analog Stick X +
-
-## General Troubleshooting ##
-
-#### Failed to open CHD file ####
-
-There are a lot of dumps out there that are not in the proper format, especially for games using CDs or DVDs. The emulator expects CDVD images
-to be compressed using chdman's `createcd` or `createdvd` command. If they are not, you will get an error. To check if a game uses CDVD or HDD
-images, look inside the associated `arcadedef` file for `cdvd` or `hdd` settings.
-
-It's possible to use `chdman` to verify whether your CDVD image is really a CDVD image. Use this command on your image:
+你可通过 `chdman` 验证镜像是否为标准 CDVD 格式，执行以下命令：
 
 ```
 chdman info -i image.chd
 ```
 
-If you see `CHT2` metadata in the output, it means your image is a CDVD image.
-If you see `GDDD` metadata in the output, it means your image is a HDD image and that it needs to be converted to CDVD. 
+若输出中包含 `CHT2` 元数据，说明该镜像为 CDVD 格式；
+若包含 `GDDD` 元数据，说明该镜像为 HDD 格式，需转换为 CDVD 格式。
 
-Conversion from HDD to CDVD can be done this way:
+HDD 转 CDVD 格式的命令：
 
 ```
 mv image.chd image.chd.orig
@@ -126,166 +117,165 @@ chdman extracthd -i image.chd.orig -o image.iso
 chdman createcd -i image.iso -o image.chd
 ```
 
-## Building ##
+## 编译构建 ##
 
-### Getting Started ###
-First you'll need to clone this repo which contains the emulator source code, alongside the submodules required to build Play!:
+### 前期准备 ###
+首先需克隆本仓库（包含模拟器源码及编译所需的子模块）：
  ```
  git clone --recurse-submodules https://github.com/jpd002/Play-.git
  cd Play-
  ```
 
-### Building for Windows ###
-The easiest way to build the project on Windows is to open Qt Creator and direct it to the Cmake file in `/project/dir/Play-/CMakeLists.txt`.
-You can also build the project using Visual Studio or cmdline, for that you must follow these instructions:
+### Windows 系统编译 ###
+Windows 下最简便的编译方式是打开 Qt Creator，选择项目目录下的 `Play-/CMakeLists.txt` 文件。
+你也可通过 Visual Studio 或命令行编译，步骤如下：
 
-To build for Windows you will need to have CMake installed on your system.
+编译前需安装 CMake：
  ```cmd
  mkdir build
  cd build
  ```
  ```
- # Not specifying -G will automatically generate 32-bit projects.
+ # 不指定 -G 会默认生成 32 位项目
  cmake .. -G "Visual Studio 15 2017 Win64" -DCMAKE_PREFIX_PATH="C:\Qt\5.10.1\msvc2017_64" -DUSE_QT=YES
  ```
-You can now build the project by opening the generated Visual Studio Solution or continue through cmdline:
+生成项目后，可打开 Visual Studio 解决方案编译，或继续通过命令行编译：
  ```cmd
  cmake --build . --config Release
  ```
-Note: `--config` can be `Release`, `Debug`, or `RelWithDebInfo`.
+注：`--config` 可选值为 `Release`（发布版）、`Debug`（调试版）、`RelWithDebInfo`（带调试信息的发布版）。
 
-### Building for macOS & iOS ###
-If you don't have CMake installed, you can install it using [Homebrew](https://brew.sh) with the following command:
+### macOS & iOS 系统编译 ###
+若未安装 CMake，可通过 [Homebrew](https://brew.sh) 安装：
  ```bash
  brew install cmake
  ```
 
-There are two ways to generate a build for macOS. Either by using Makefiles, or Xcode:
+macOS 下有两种编译方式：Makefile 或 Xcode：
  ```bash
  mkdir build
  cd build
  ```
  ```
- # Not specifying -G will automatically pick Makefiles
+ # 不指定 -G 会默认使用 Makefiles
  cmake .. -G Xcode -DCMAKE_PREFIX_PATH=~/Qt/5.1.0/clang_64/
  cmake --build . --config Release
- # OR
+ # 或使用 Makefiles
  cmake .. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=~/Qt/5.1.0/clang_64/
  cmake --build .
  ```
-To generate a build for iOS, you will need to add the following parameters to the CMake invocation:
+iOS 编译需在 CMake 命令中添加以下参数：
  ```bash
  -DCMAKE_TOOLCHAIN_FILE=../../../Dependencies/cmake-ios/ios.cmake -DTARGET_IOS=ON
  ```
 
-iOS build doesn't use Qt, so omit `-DCMAKE_PREFIX_PATH=...`
+iOS 编译不依赖 Qt，需移除 `-DCMAKE_PREFIX_PATH=...` 参数。
 
-Example:
+示例：
  ```bash
  cmake .. -G Xcode -DCMAKE_TOOLCHAIN_FILE=../deps/Dependencies/cmake-ios/ios.cmake -DTARGET_IOS=ON
  ```
 
-Note: iOS builds generated with Makefiles will not be FAT binaries.
+注：通过 Makefiles 生成的 iOS 编译产物并非 FAT 二进制文件（无法同时兼容多种架构）。
 
-To test your iOS builds on a device, you will need to setup code signing:
-- Set `CODE_SIGNING_ALLOWED` to `YES` on the `Play` target.
-- Set your code signing parameters in Signing & Capabilities tab in Xcode.
+若需在 iOS 设备测试编译产物，需配置代码签名：
+- 在 `Play` 目标中设置 `CODE_SIGNING_ALLOWED` 为 `YES`。
+- 在 Xcode 的「Signing & Capabilities（签名与功能）」面板中配置代码签名参数。
 
-To build with Vulkan on macOS, just make sure the `$VULKAN_SDK` environment variable is set with the proper path.
+macOS 下编译 Vulkan 版本，需确保 `$VULKAN_SDK` 环境变量指向正确路径。
 
-On iOS, you will need to add this to your CMake command line:
+iOS 下编译 Vulkan 版本，需在 CMake 命令中添加：
  ```bash
  -DCMAKE_PREFIX_PATH=$VULKAN_SDK
  ```
 
-### Building for UNIX ###
-if you don't have Cmake or OpenAL lib installed, you'll also require Qt. (preferably version 5.6)
-You can install it using your OS packaging tool, e.g Ubuntu: `apt install cmake libalut-dev qt5-default libevdev-dev libqt5x11extras5-dev libsqlite3-dev`
+### UNIX 系统编译 ###
+若未安装 CMake 或 OpenAL 库，还需安装 Qt（建议 5.6 版本）。
+可通过系统包管理器安装，例如 Ubuntu：
+`apt install cmake libalut-dev qt5-default libevdev-dev libqt5x11extras5-dev libsqlite3-dev`
 
-On UNIX systems there are 3 ways to setup a build. Using Qt creator, makefile or Ninja:
- - QT Creator
-    - Open Project -> `Play/CMakeLists.txt`
+UNIX 系统有三种编译方式：Qt Creator、Makefile 或 Ninja：
+ - QT Creator：
+    - 打开项目 → 选择 `Play/CMakeLists.txt`
 
- - Makefile/Ninja:
+ - Makefile/Ninja：
    ```bash
    mkdir build
    cd build
    ```
    ```
-   # Not specifying -G will automatically pick Makefiles
+   # 不指定 -G 会默认使用 Makefiles
    cmake .. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=/opt/qt56/
    cmake --build .
-   # OR
+   # 或使用 Ninja
    cmake .. -G Ninja -DCMAKE_PREFIX_PATH=/opt/qt56/
    cmake --build . --config Release
    ```
-The above example uses a backport repo to install Qt5.6 on Ubuntu Trusty.
+上述示例基于 Ubuntu Trusty 系统的 Qt5.6 回溯仓库。
 
-Note: `CMAKE_PREFIX_PATH` refers to the Qt directory containing bin/libs folder. If you install Qt from their official website, your `CMAKE_PREFIX_PATH` might look like this: `~/Qt5.6.0/5.6/gcc_64/`
+注：`CMAKE_PREFIX_PATH` 指向 Qt 的 bin/libs 目录所在路径。若从 Qt 官网安装，路径可能为：`~/Qt5.6.0/5.6/gcc_64/`。
 
-### Building for Android ###
-Building for Android has been tested on macOS and UNIX environments.
+### Android 系统编译 ###
+Android 版本的编译已在 macOS 和 UNIX 环境下测试通过。
 
-Android can be built using Android Studio, or Gradle:
- - Android Studio:
-   - Files-> Open Projects-> Directory To `Play/build_android`
-   - Install NDK using SDK manager
-     - Edit/create `Play/build_android/local.properties`
-     - OSX: Add a new line: `ndk.dir=/Users/USER_NAME/Library/Android/sdk/ndk-bundle` replacing `USER_NAME` with your macOS username
-     - UNIX: Add a new line: `ndk.dir=~/Android/Sdk/ndk-bundle`
-     - Windows: Add a new line: `C:\Users\USER_NAME\AppData\Local\Android\sdk\ndk-bundle`
-     - Please leave an empty new line at the end of the file.
+可通过 Android Studio 或 Gradle 编译：
+ - Android Studio：
+   - 文件 → 打开项目 → 选择 `Play/build_android` 目录
+   - 通过 SDK 管理器安装 NDK
+     - 编辑/创建 `Play/build_android/local.properties` 文件
+     - macOS：添加行 `ndk.dir=/Users/USER_NAME/Library/Android/sdk/ndk-bundle`（替换 `USER_NAME` 为你的 macOS 用户名）
+     - UNIX：添加行 `ndk.dir=~/Android/Sdk/ndk-bundle`
+     - Windows：添加行 `ndk.dir=C:\Users\USER_NAME\AppData\Local\Android\sdk\ndk-bundle`
+     - 文件末尾需保留空行。
 
-Note: These examples are only valid if you installed NDK through Android Studio's SDK manager.
-Otherwise, you must specify the correct location to the Android NDK.
+注：上述路径仅适用于通过 Android Studio SDK 管理器安装的 NDK，否则需手动指定 NDK 实际路径。
 
-Once this is done, you can start the build:
- - Gradle: Prerequisite Android SDK & NDK (Both can be installed through Android Studio)
-   - edit/create `Play/build_android/local.properties`
-     - OSX:
-       - Add a new line: `sdk.dir=/Users/USER_NAME/Library/Android/sdk` replacing `USER_NAME` with your macOS username
-       - Add a new line: `ndk.dir=/Users/USER_NAME/Library/Android/sdk/ndk-bundle` replacing `USER_NAME` with your macOS username
-     - UNIX:
-       - Add a new line: `sdk.dir=~/Android/Sdk`
-       - Add a new line: `ndk.dir=~/Android/Sdk/ndk-bundle`
-     - Windows:
-       - Add a new line: `sdk.dir=C:\Users\USER_NAME\AppData\Local\Android\sdk`
-       - Add a new line: `ndk.dir=C:\Users\USER_NAME\AppData\Local\Android\sdk\ndk-bundle`
-     - Please leave an empty new line at the end of the file.
+配置完成后即可开始编译：
+ - Gradle：需提前安装 Android SDK 和 NDK（均可通过 Android Studio 安装）
+   - 编辑/创建 `Play/build_android/local.properties` 文件
+     - macOS：
+       - 添加行 `sdk.dir=/Users/USER_NAME/Library/Android/sdk`（替换 `USER_NAME`）
+       - 添加行 `ndk.dir=/Users/USER_NAME/Library/Android/sdk/ndk-bundle`（替换 `USER_NAME`）
+     - UNIX：
+       - 添加行 `sdk.dir=~/Android/Sdk`
+       - 添加行 `ndk.dir=~/Android/Sdk/ndk-bundle`
+     - Windows：
+       - 添加行 `sdk.dir=C:\Users\USER_NAME\AppData\Local\Android\sdk`（替换 `USER_NAME`）
+       - 添加行 `ndk.dir=C:\Users\USER_NAME\AppData\Local\Android\sdk\ndk-bundle`（替换 `USER_NAME`）
+     - 文件末尾需保留空行。
 
-Note: These examples are only valid if you installed NDK through Android Studio's SDK manager.
-Otherwise you must specify the correct location to Android NDK.
-Once this is done, you can start the build:
+注：上述路径仅适用于通过 Android Studio SDK 管理器安装的 NDK，否则需手动指定 NDK 实际路径。
+配置完成后执行编译命令：
  ```bash
  cd Play/build_android
  sh gradlew assembleDebug
  ```
 
-##### About Release/Signed builds #####
-Building through Android Studio, you have the option to “Generate Signed APK”.
+##### 发布版/签名编译说明 #####
+通过 Android Studio 可直接「Generate Signed APK（生成签名 APK）」。
 
-When building through Gradle, make sure these variables are defined in a `gradle.properties` file, either in your project directory or in your `GRADLE_USER_HOME` directory:
+通过 Gradle 编译签名发布版，需在项目目录或 `GRADLE_USER_HOME` 目录的 `gradle.properties` 文件中定义以下变量：
 
  ```
- PLAY_RELEASE_STORE_FILE=/location/to/my/key.jks
- PLAY_RELEASE_STORE_PASSWORD=mysuperhardpassword
- PLAY_RELEASE_KEY_ALIAS=myalias
- PLAY_RELEASE_KEY_PASSWORD=myevenharderpassword
+ PLAY_RELEASE_STORE_FILE=/密钥文件路径/key.jks
+ PLAY_RELEASE_STORE_PASSWORD=密钥库密码
+ PLAY_RELEASE_KEY_ALIAS=密钥别名
+ PLAY_RELEASE_KEY_PASSWORD=密钥密码
  ```
 
-Then, you should be able to use `assembleRelease` to generate a signed release build.
+配置完成后，执行以下命令生成签名发布版：
  ```
  cd Play/build_android
  sh gradlew assembleRelease
- # or on Windows
+ # Windows 系统执行
  gradlew.bat assembleRelease
  ```
 
-### Building for Web Browsers ###
+### 网页浏览器版本编译 ###
 
-Building for the web browser environment requires [emscripten](https://emscripten.org/).
+网页版编译需安装 [emscripten](https://emscripten.org/)。
 
-Use `emcmake` to generate the project:
+通过 `emcmake` 生成项目：
 
 ```
 mkdir build
@@ -293,13 +283,13 @@ cd build
 emcmake cmake .. -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=OFF -DBUILD_PLAY=ON -DBUILD_PSFPLAYER=ON -DUSE_QT=OFF
 ```
 
-Upon completion, you can build the JavaScript/WebAssembly files using this command line:
+生成完成后，执行以下命令编译 JavaScript/WebAssembly 文件：
 
 ```
 cmake --build . --config Release
 ```
 
-This will generate the JavaScript glue code and the WebAssembly module required for the web application located in `js/play_browser`. Here's where the output files from emscripten need to be copied:
+编译产物（JavaScript 胶水代码和 WebAssembly 模块）需复制到 `js/play_browser` 目录对应位置：
 
 ```
 build_cmake/build/Source/ui_js/Play.js -> js/play_browser/src/Play.js
@@ -307,13 +297,13 @@ build_cmake/build/Source/ui_js/Play.wasm -> js/play_browser/public/Play.wasm
 build_cmake/build/Source/ui_js/Play.js -> js/play_browser/public/Play.js
 ```
 
-Once this is done, you should be able to go in the `js/play_browser` folder and run the following to get a local version running in your web browser:
+复制完成后，进入 `js/play_browser` 目录执行以下命令，即可在本地浏览器运行网页版：
 
 ```
 npm install
 npm start
 ```
 
-##### Browser environment caveats #####
-- Write protection on memory pages is not supported, thus, games loading modules on the EE might not work properly since JIT cache can't be invalidated.
-- No control over floating point environment, default rounding mode is used, which can cause issues in some games.
+##### 浏览器环境限制 #####
+- 不支持内存页写保护，因此加载 EE 模块的游戏可能运行异常（JIT 缓存无法失效）。
+- 无法控制浮点运算环境，默认使用舍入模式，部分游戏可能出现异常。
